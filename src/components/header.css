@@ -1,0 +1,77 @@
+.header {
+    background-color: var(--white);
+    height: 100px;
+    border-bottom: 1px solid var(--gray);
+    /* top: 0; */
+    /* position: fixed; */
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+}
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    height: 100px;
+    align-items: center;
+}
+.header-right, .button-home, .button-admin {
+    display: flex;
+    height: 50px;
+    align-items: center;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-radius: 3px;
+}
+
+.button-home:hover::after {
+    background-color: var(--black);
+}
+
+.main-logo {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.header-center p {
+    font-size: 22px;
+    font-weight: bold;
+}
+/* ------------------ button link ---------------*/
+.logo-container {
+    display: flex;
+}
+.logo-link {
+    color: var(--black);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 2rem;
+    
+}
+
+.active {
+    border: 1px solid black;
+}
+
+.button-link, .button-link-logout {
+    color: var(--black);
+    text-decoration: none;
+    font-size: 1rem;
+    display: flex;
+    height: 50px;
+    align-items: center;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-radius: 3px;
+}
+
+.button-link-logout:hover,
+.button-link:hover {
+    border: none;
+    background-color: var(--pastelblue);
+}
+

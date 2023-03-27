@@ -1,0 +1,27 @@
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    /* width: 100vw; */
+    /* height: 100vh; */
+}
+/* .SideMenuAndAdminContent {
+    display: flex;
+    flex: 1;
+    justify-content: space-around;
+    align-items: center;
+    align-items: flex-start;
+    justify-content: flex-start;
+} */
+
+.SideMenu {
+    
+}
+
+.AdminContent {
+    
+}
+
+section {
+    display: flex;
+}
+
