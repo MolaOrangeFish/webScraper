@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { TbSpeakerphone } from "react-icons/tb";
 import { Link, NavLink } from "react-router-dom";
-import "./Header.css";
+import "./header.css"
 import { MdAdminPanelSettings } from "react-icons/md";
 import { UserContext } from "../App";
 import mainLogo from "../logo.png";
