@@ -6,7 +6,7 @@ import React from "react";
 import Home from "./Pages/Home";
 import { db } from "./realtimeData/firebase-config";
 import { ref, onValue } from "firebase/database";
-import  Header  from "./components/header"
+import Header from "./components/header";
 import Login from "./Pages/Login";
 import Admin from "./Pages/Admin";
 import { initialState, reducer } from "./reducer/UseReducer";
@@ -28,8 +28,6 @@ function App() {
   const [ state, dispatch ] = useReducer(reducer, initialState)
 
   function Data(){
-
-
     useEffect(() => {
       onValue(ref(db, "scraper"), (snapshot) => {
         let tempArrayLost = [];
