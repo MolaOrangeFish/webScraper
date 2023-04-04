@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
-import { TbSpeakerphone } from "react-icons/tb";
-import { Link, NavLink } from "react-router-dom";
-import "./header.css";
+import { NavLink } from "react-router-dom";
+import "./Header.css";
 import { MdAdminPanelSettings, MdHome } from "react-icons/md";
 import { UserContext } from "../App";
 import mainLogo from "../logo.png";
-import { FiMenu, FiX, FiHome } from "react-icons/fi";
+import { FiMenu, FiX } from "react-icons/fi";
 
 function Header() {
   const { state, dispatch } = useContext(UserContext);
@@ -16,8 +15,6 @@ function Header() {
   const [click, setClick] = useState(false);
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
-
-  console.log("this state -> ", state);
 
   const RenderHeader = () => {
     if (state === true) {
@@ -99,7 +96,7 @@ function Header() {
                     }
                   >
                     <MdHome className="logo" />
-                    Home
+                    หน้าหลัก
                   </NavLink>
                 </div>
                 <div className="button-admin" onClick={closeMobileMenu}>
@@ -110,7 +107,7 @@ function Header() {
                     }
                   >
                     <MdAdminPanelSettings className="logo" />
-                    Admin
+                    แอดมิน
                   </NavLink>
                 </div>
               </div>

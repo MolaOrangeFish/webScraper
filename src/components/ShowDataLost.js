@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ImageSlider from "./ImageSlider";
 import "./ShowDataLost.css";
-import axios from "axios";
-import mainLogo from "../logo.png";
 
 function ShowDataLost({ currentPosts }) {
 
   function showType(data) {
     let size = data.length;
-    console.log(data);
     let tempType = [];
     if (size === 1) {
       data.map((type, index) => {

@@ -1,9 +1,8 @@
-import { Typography } from "antd";
 import React, { useEffect, useState } from "react";
 import "./Insertdata.css";
 import { Select, Input, Button, Tag, message, Modal } from "antd";
 import { db } from "../realtimeData/firebase-config";
-import { ref, onValue, set, remove } from "firebase/database";
+import { ref, onValue, set } from "firebase/database";
 
 function Insertdata() {
   const [text, setText] = useState("");
@@ -16,13 +15,46 @@ function Insertdata() {
 
   const [messageApi, contextHolder] = message.useMessage();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  function success() {
-    messageApi.open({
-      type: "success",
-      content: "This is a success message",
-    });
+  function showTableSelect() {
+    let temp;
+    if (selected === "close_post") {
+      temp = "ปิดโพสต์";
+    } else if (selected === "acessories") {
+      temp = "อุปกรณ์เสริม";
+    } else if (selected === "apartment_condo") {
+      temp = "หอพัก/คอนโด/ที่อยู่อาศัย";
+    } else if (selected === "bag_wallet") {
+      temp = "กระเป๋า";
+    } else if (selected === "card_ticket") {
+      temp = "บัตร/ตั๋ว";
+    } else if (selected === "clothing") {
+      temp = "เครื่องแต่งกาย";
+    } else if (selected === "education") {
+      temp = "เกี่ยวกับการศึกษา";
+    } else if (selected === "key") {
+      temp = "กุญแจ";
+    } else if (selected === "notebook_pc") {
+      temp = "โน๊ตบุ๊ค";
+    } else if (selected === "pet") {
+      temp = "สัตว์เลี้ยง";
+    } else if (selected === "phone") {
+      temp = "โทรศัพท์";
+    } else if (selected === "stuff") {
+      temp = "ของใช้ภายในบ้าน";
+    } else if (selected === "vehicle") {
+      temp = "ยานพาหนะ";
+    } else if (selected === "watch") {
+      temp = "นาฬิกา";
+    } else if (selected === "color") {
+      temp = "สี";
+    } else if (selected === "place") {
+      temp = "สถานที่";
+    } else if (selected === "find") {
+      temp = "ตามหา";
+    } else if (selected === "sell") {
+      temp = "ซื้อ-ขาย";
+    }
+    return temp;
   }
 
   // insert data
@@ -36,33 +68,31 @@ function Insertdata() {
       } else {
         if (selected === "close_post") {
           addData.push(text);
-          set(ref(db, `test`), {
+          set(ref(db, selected), {
             ...addData,
           });
-        }
-        else if(selected === "color" || selected === "place"){
+        } else if (selected === "color" || selected === "place") {
           addData.push(text);
           set(ref(db, "detail/" + selected), {
             ...addData,
           });
-        }
-        else if(selected === "find" || selected === "sell"){
+        } else if (selected === "find" || selected === "sell") {
           addData.push(text);
           set(ref(db, "type/" + selected), {
             ...addData,
           });
-        }
-        else {
+        } else {
           addData.push(text);
           set(ref(db, "detail/category/" + selected), {
             ...addData,
           });
         }
+        setSelected("");
       }
     }
   }
 
-  // read data then select
+  // read data then select 
   function selectTable(table) {
     let tempData = [];
     if (table !== "") {
@@ -108,8 +138,31 @@ function Insertdata() {
 
   // delete data
   function clickDeleteText(index) {
-    const t = ref(db, `test/${index}`);
-    remove(t).then(() => {});
+    let data = addData;
+    let position = index;
+    for(let i=position; i<data.length-1;i++){
+      data[i] = data[i+1];
+    }
+    data.pop();
+    setAddData(data);
+    if (selected === "close_post") {
+      set(ref(db, selected), {
+        ...addData,
+      });
+    } else if (selected === "color" || selected === "place") {
+      set(ref(db, "detail/" + selected), {
+        ...addData,
+      });
+    } else if (selected === "find" || selected === "sell") {
+      set(ref(db, "type/" + selected), {
+        ...addData,
+      });
+    } else {
+      set(ref(db, "detail/category/" + selected), {
+        ...addData,
+      });
+    }
+    setSelected("");
   }
 
   useEffect(() => {}, []);
@@ -120,23 +173,27 @@ function Insertdata() {
         key={tag}
         id={index}
         className="boxText"
-        onClick={() => {
-          // clickText(index);
-        }}
       >
         {tag}
-        <span className="delete" onClick={() => {clickDeleteText(index)}}>x</span>
+        <span
+          className="delete"
+          onClick={() => {
+            clickDeleteText(index, tag);
+          }}
+        >
+          x
+        </span>
       </p>
     );
   };
 
   function showDataSelect() {
-    if(selected !== ""){
+    if (selected !== "") {
       return (
-      <div className="showData-content">
-        {state === true && tempSelectTable.map(forMap)}
-      </div>
-      )
+        <div className="showData-content">
+          {state === true && tempSelectTable.map(forMap)}
+        </div>
+      );
     }
   }
 
@@ -146,13 +203,12 @@ function Insertdata() {
         <p className="nameselect">เลือกหมวดที่ต้องการเพิ่มข้อมูลในการกรอง :</p>
         &nbsp;
         <Select
-          defaultValue=""
+          defaultValue="หมวด"
           className="select-table"
           onChange={(value) => {
             setError("");
             setSelected(value);
             selectTable(value);
-            // setState(true);
           }}
           options={[
             { value: "close_post", label: "ปิดโพสต์" },
@@ -181,7 +237,7 @@ function Insertdata() {
       )}
       <div className="selected-content">
         <p>หมวดที่เลือก :</p>&nbsp;
-        <p className="nameselected">{selected}</p>
+        <p className="nameselected">{showTableSelect()}</p>
       </div>
       <div className="input-content">
         <Input
@@ -202,7 +258,6 @@ function Insertdata() {
       )}
       {contextHolder}
       {showDataSelect()}
-      {/* { tempSelectTable.map(forMap) } */}
     </div>
   );
 }
